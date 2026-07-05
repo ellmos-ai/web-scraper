@@ -54,7 +54,7 @@ nachziehen: Python-Modul (`web_scraper/core.py`) ↔ TS-Tool
 ```python
 # Als Bibliothek (z. B. aus einem anderen Modul/Agenten)
 import sys
-sys.path.insert(0, r"C:\Users\User\OneDrive\.TOPICS\.AI\.MODULES\web-scraper")
+sys.path.insert(0, "/path/to/web-scraper")   # or simply: pip install the module
 from web_scraper import WebScraper
 
 scraper = WebScraper(timeout=15)
