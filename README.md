@@ -1,5 +1,7 @@
 # web-scraper
 
+![web-scraper — Fetch. Extract. Structure.](assets/banner.svg)
+
 Standalone web scraper and lightweight browser control, extracted from the
 BACH system (`web_scrape.py`). Fetch pages, pull out links and forms, inspect
 response headers, extract clean main content as Markdown, and take screenshots.

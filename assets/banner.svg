@@ -1,0 +1,229 @@
+<svg width="1280" height="320" viewBox="0 0 1280 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080c14" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    
+    <!-- Accent Gradients -->
+    <linearGradient id="accent-cyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+    
+    <linearGradient id="accent-emerald" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#34d399" />
+    </linearGradient>
+    
+    <linearGradient id="accent-purple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#a78bfa" />
+    </linearGradient>
+
+    <!-- Flow Gradients -->
+    <linearGradient id="flow-gradient-1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#34d399" />
+    </linearGradient>
+    
+    <linearGradient id="flow-gradient-2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a78bfa" />
+      <stop offset="100%" stop-color="#34d399" />
+    </linearGradient>
+
+    <linearGradient id="flow-gradient-3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <!-- Grid Pattern -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1" />
+    </pattern>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#020617" flood-opacity="0.6" />
+    </filter>
+
+    <!-- Blur Filter for Glowing Orbs -->
+    <filter id="glow-blur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="60" />
+    </filter>
+  </defs>
+
+  <!-- 1. Background -->
+  <rect width="1280" height="320" fill="url(#bg-gradient)" />
+  <rect width="1280" height="320" fill="url(#grid)" />
+
+  <!-- Glowing Orbs (Atmospheric background lighting) -->
+  <circle cx="1000" cy="160" r="160" fill="#06b6d4" opacity="0.12" filter="url(#glow-blur)" />
+  <circle cx="750" cy="100" r="120" fill="#8b5cf6" opacity="0.08" filter="url(#glow-blur)" />
+  <circle cx="1150" cy="220" r="100" fill="#10b981" opacity="0.08" filter="url(#glow-blur)" />
+
+  <!-- Faint decorative connection nodes in background -->
+  <g opacity="0.25">
+    <line x1="620" y1="120" x2="680" y2="240" stroke="rgba(148, 163, 184, 0.2)" stroke-width="1" />
+    <line x1="680" y1="240" x2="710" y2="180" stroke="rgba(148, 163, 184, 0.2)" stroke-width="1" />
+    <line x1="1210" y1="60" x2="1240" y2="180" stroke="rgba(148, 163, 184, 0.2)" stroke-width="1" />
+    <line x1="1240" y1="180" x2="1180" y2="270" stroke="rgba(148, 163, 184, 0.2)" stroke-width="1" />
+    <circle cx="620" cy="120" r="3" fill="#38bdf8" />
+    <circle cx="680" cy="240" r="2" fill="#818cf8" />
+    <circle cx="1210" cy="60" r="3.5" fill="#34d399" />
+    <circle cx="1240" cy="180" r="2.5" fill="#38bdf8" />
+    <circle cx="1180" cy="270" r="3" fill="#818cf8" />
+  </g>
+
+  <!-- 2. Logo Icon (Left Side) -->
+  <g filter="url(#shadow)">
+    <!-- Outer hexagon -->
+    <polygon points="160,95 198,117 198,161 160,183 122,161 122,117" fill="#090d16" stroke="url(#accent-cyan)" stroke-width="2.5" />
+    
+    <!-- Code Brackets -->
+    <path d="M 142,131 L 134,139 L 142,147" fill="none" stroke="#e2e8f0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 178,131 L 186,139 L 178,147" fill="none" stroke="#e2e8f0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    
+    <!-- Scraper hook / Extract Downward Arrow -->
+    <path d="M 160,119 L 160,154 M 151,145 L 160,154 L 169,145" fill="none" stroke="url(#accent-emerald)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <!-- 3. Title & Tagline & Install Command (Left Side) -->
+  <!-- Python Badge -->
+  <rect x="220" y="55" width="130" height="24" rx="12" fill="rgba(6, 182, 212, 0.1)" stroke="rgba(6, 182, 212, 0.3)" stroke-width="1.2" />
+  <text x="285" y="70" font-size="10px" font-weight="700" letter-spacing="1.5px" fill="#38bdf8" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">PYTHON MODULE</text>
+
+  <!-- Title -->
+  <text x="220" y="142" font-size="68px" font-weight="800" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" letter-spacing="-1.5px" fill="#ffffff" filter="url(#shadow)">
+    web-<tspan fill="url(#accent-cyan)">scraper</tspan><tspan fill="#38bdf8" opacity="0.8">_</tspan>
+  </text>
+
+  <!-- Tagline -->
+  <text x="220" y="185" font-size="20px" font-weight="500" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" letter-spacing="1.5px">
+    <tspan fill="#38bdf8">Fetch.</tspan>
+    <tspan fill="#a78bfa"> Extract.</tspan>
+    <tspan fill="#34d399"> Structure.</tspan>
+  </text>
+
+  <!-- Terminal Install Command -->
+  <rect x="220" y="215" width="290" height="34" rx="6" fill="#090d16" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+  <text x="236" y="236" font-size="12px" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" fill="#94a3b8">
+    <tspan fill="#38bdf8">$</tspan> pip install web-scraper
+  </text>
+
+  <!-- 4. Visual Motif (Right Side) -->
+  <!-- Connection Lines (Extraction Flows) -->
+  <g opacity="0.85">
+    <!-- Flow 1 (Header -> Title JSON) -->
+    <path d="M 905,108 C 945,108 945,130 992,130" fill="none" stroke="url(#flow-gradient-1)" stroke-width="2" stroke-dasharray="4 2" />
+    <circle cx="905" cy="108" r="3" fill="#38bdf8" />
+    <circle cx="992" cy="130" r="3.5" fill="#34d399" />
+
+    <!-- Flow 2 (Paragraph -> Content JSON) -->
+    <path d="M 855,152 C 920,152 920,146 992,146" fill="none" stroke="url(#flow-gradient-2)" stroke-width="2" />
+    <circle cx="855" cy="152" r="3" fill="#a78bfa" />
+    <circle cx="992" cy="146" r="3.5" fill="#34d399" />
+
+    <!-- Flow 3 (Link -> Links JSON) -->
+    <path d="M 795,193 C 895,193 892,162 992,162" fill="none" stroke="url(#flow-gradient-3)" stroke-width="1.5" stroke-dasharray="2 2" />
+    <circle cx="795" cy="193" r="3" fill="#34d399" />
+    <circle cx="992" cy="162" r="3.5" fill="#34d399" />
+  </g>
+
+  <!-- Card 1: Raw Web Page Source (Leftmost card in motif) -->
+  <g transform="translate(680, 50)" filter="url(#shadow)">
+    <!-- Card Base -->
+    <rect width="240" height="200" rx="10" fill="#090d16" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1.5" />
+    
+    <!-- Browser Title Bar -->
+    <rect width="240" height="30" rx="10" fill="rgba(255, 255, 255, 0.02)" />
+    <!-- Browser window control dots -->
+    <circle cx="15" cy="15" r="4" fill="#ef4444" opacity="0.8" />
+    <circle cx="27" cy="15" r="4" fill="#f59e0b" opacity="0.8" />
+    <circle cx="39" cy="15" r="4" fill="#10b981" opacity="0.8" />
+    <!-- Mock URL bar -->
+    <rect x="55" y="7" width="165" height="16" rx="8" fill="rgba(255, 255, 255, 0.05)" />
+    <text x="65" y="18" font-size="8px" font-family="-apple-system, BlinkMacSystemFont, sans-serif" fill="#64748b">https://example.com/blog</text>
+    
+    <!-- HTML Document Content Mockup -->
+    <!-- Header Block (extracted target) -->
+    <rect x="15" y="45" width="210" height="26" rx="4" fill="rgba(56, 189, 248, 0.05)" stroke="rgba(56, 189, 248, 0.15)" stroke-width="1" />
+    <!-- Visual Tag H1 -->
+    <rect x="20" y="52" width="18" height="12" rx="2" fill="#38bdf8" />
+    <text x="29" y="61" font-size="7px" font-weight="800" font-family="system-ui" fill="#090d16" text-anchor="middle">H1</text>
+    <!-- Header Text representation -->
+    <rect x="44" y="55" width="150" height="6" rx="1" fill="#e2e8f0" opacity="0.8" />
+
+    <!-- Main Text Block (extracted target) -->
+    <rect x="15" y="81" width="160" height="42" rx="4" fill="rgba(139, 92, 246, 0.05)" stroke="rgba(139, 92, 246, 0.15)" stroke-width="1" />
+    <!-- Visual Tag TXT -->
+    <rect x="20" y="87" width="22" height="12" rx="2" fill="#a78bfa" />
+    <text x="31" y="96" font-size="7px" font-weight="800" font-family="system-ui" fill="#090d16" text-anchor="middle">TXT</text>
+    <!-- Text body representation -->
+    <rect x="48" y="90" width="115" height="6" rx="1" fill="#94a3b8" opacity="0.8" />
+    <rect x="20" y="104" width="143" height="6" rx="1" fill="#94a3b8" opacity="0.6" />
+    <rect x="20" y="112" width="80" height="6" rx="1" fill="#94a3b8" opacity="0.6" />
+
+    <!-- Ad/Sidebar Banner (to be cleaned / not extracted) -->
+    <rect x="185" y="81" width="40" height="70" rx="4" fill="rgba(239, 68, 68, 0.02)" stroke="rgba(239, 68, 68, 0.1)" stroke-dasharray="2 2" />
+    <!-- Crossed out indicating trash filtering -->
+    <path d="M 195,106 L 215,126 M 215,106 L 195,126" stroke="#ef4444" stroke-width="1.5" opacity="0.3" stroke-linecap="round" />
+    <text x="205" y="95" font-size="6px" font-weight="700" font-family="system-ui" fill="#ef4444" opacity="0.4" text-anchor="middle">AD</text>
+
+    <!-- Link elements (extracted target) -->
+    <rect x="15" y="133" width="100" height="20" rx="4" fill="rgba(16, 185, 129, 0.05)" stroke="rgba(16, 185, 129, 0.15)" stroke-width="1" />
+    <rect x="20" y="137" width="24" height="12" rx="2" fill="#34d399" />
+    <text x="32" y="146" font-size="7px" font-weight="800" font-family="system-ui" fill="#090d16" text-anchor="middle">LINK</text>
+    <rect x="50" y="140" width="55" height="6" rx="1" fill="#34d399" opacity="0.8" />
+
+    <!-- Footer representation -->
+    <rect x="15" y="165" width="210" height="20" rx="4" fill="rgba(148, 163, 184, 0.03)" stroke="rgba(148, 163, 184, 0.08)" />
+    <circle cx="25" cy="175" r="4" fill="#64748b" opacity="0.3" />
+    <rect x="35" y="172" width="70" height="6" rx="1" fill="#64748b" opacity="0.3" />
+  </g>
+
+  <!-- Card 2: Extracted Structured JSON (Rightmost card in motif) -->
+  <g transform="translate(980, 70)" filter="url(#shadow)">
+    <!-- Card Base -->
+    <rect width="200" height="170" rx="10" fill="#090d16" stroke="rgba(52, 211, 153, 0.25)" stroke-width="1.5" />
+    
+    <!-- Code Editor Tab Bar -->
+    <rect width="200" height="26" rx="10" fill="rgba(52, 211, 153, 0.04)" />
+    <line x1="0" y1="26" x2="200" y2="26" stroke="rgba(52, 211, 153, 0.12)" stroke-width="1" />
+    <circle cx="12" cy="13" r="3" fill="#34d399" opacity="0.6" />
+    <text x="24" y="17" font-size="9px" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-weight="700" fill="#34d399">extracted.json</text>
+
+    <!-- JSON syntax output -->
+    <g transform="translate(15, 36)" font-size="10px" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace">
+      <!-- Line 1: { -->
+      <text x="0" y="12" fill="#e2e8f0">{</text>
+      
+      <!-- Line 2: "title": "Clean Page" -->
+      <text x="12" y="28" fill="#a78bfa">"title": <tspan fill="#34d399">"Clean Page"</tspan>,</text>
+      
+      <!-- Line 3: "text": "Main body..." -->
+      <text x="12" y="44" fill="#a78bfa">"text": <tspan fill="#34d399">"Main body..."</tspan>,</text>
+      
+      <!-- Line 4: "links": [ -->
+      <text x="12" y="60" fill="#a78bfa">"links": <tspan fill="#e2e8f0">[</tspan></text>
+      
+      <!-- Line 5: "https://..." -->
+      <text x="24" y="76" fill="#34d399">"https://..."</text>
+      
+      <!-- Line 6: ] -->
+      <text x="12" y="92" fill="#e2e8f0">]</text>
+      
+      <!-- Line 7: } -->
+      <text x="0" y="108" fill="#e2e8f0">}</text>
+    </g>
+
+    <!-- Success Checkmark Badge -->
+    <g transform="translate(165, 135)">
+      <circle cx="10" cy="10" r="10" fill="#10b981" opacity="0.2" />
+      <circle cx="10" cy="10" r="8" fill="#10b981" />
+      <path d="M 7,10.5 L 9,12.5 L 13.5,8" fill="none" stroke="#090d16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+  </g>
+</svg>

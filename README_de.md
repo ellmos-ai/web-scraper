@@ -1,5 +1,7 @@
 # web-scraper
 
+![web-scraper — Fetch. Extract. Structure.](assets/banner.svg)
+
 Eigenständiger Web-Scraper und leichte Browser-Steuerung, extrahiert aus dem
 BACH-System (`web_scrape.py`). Seiten abrufen, Links und Formulare herauslösen,
 Response-Headers ansehen, sauberen Haupttext als Markdown extrahieren und
