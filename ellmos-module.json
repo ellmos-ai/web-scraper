@@ -1,0 +1,70 @@
+{
+  "$schema": "ellmos-module-v1",
+  "name": "web-scraper",
+  "display_name": "Web Scraper",
+  "version": "0.1.0",
+  "kind": "standalone-module",
+  "visibility": "public",
+  "description": "Standalone-Web-Scraper / Browser-Steuerung: HTTP GET, Link- und Formular-Extraktion, Response-Headers, Haupttext-Extraktion (Markdown) und Screenshots. Kern laeuft mit der Standardbibliothek; optionale Extras (requests, beautifulsoup4, trafilatura, selenium) verbessern das Ergebnis. Mit SSRF-Schutz.",
+
+  "origin": {
+    "source": "BACH system/hub/web_scrape.py (WebScrapeHandler, Task 996)",
+    "extracted": "2026-07-05",
+    "neutralization": "Aus BACH-Handler geloest (BaseHandler-Bindung entfernt); eigenstaendige WebScraper-Klasse + CLI; Regex-Parsing durch bs4/trafilatura mit Regex-Fallback ersetzt; SSRF-Schutz und Groessenlimit ergaenzt"
+  },
+
+  "authors": ["Lukas Geiger", "ellmos", "BACH Contributors"],
+  "license": "MIT",
+  "privacy": {
+    "level": "public",
+    "client_data": false,
+    "note": "Kein nutzerspezifischer Inhalt; oeffentlich veroeffentlichbar nach Final Gate Check"
+  },
+
+  "capabilities": [
+    "http-get",
+    "extract-links",
+    "extract-forms",
+    "response-headers",
+    "content-extraction",
+    "screenshot",
+    "ssrf-guard"
+  ],
+
+  "optional_dependencies": {
+    "requests": "Robusterer HTTP-Client (Redirects, SSL-Fallback, Streaming)",
+    "beautifulsoup4": "Sauberes Link-/Formular-/Text-Parsing",
+    "trafilatura": "Beste Haupttext-Extraktion als Markdown",
+    "selenium": "Screenshots (braucht Browser-Driver)"
+  },
+
+  "entrypoints": {
+    "main": "web_scraper.core",
+    "cli": "web_scraper.core:main",
+    "class": "web_scraper.core.WebScraper"
+  },
+
+  "storage": {
+    "output": {
+      "env": "WEB_SCRAPER_HOME",
+      "default": "~/.web-scraper",
+      "note": "Screenshot-Ausgabe (Default-Pfad, wenn --out fehlt)"
+    }
+  },
+
+  "boundaries": {
+    "no_bach_imports": true,
+    "standalone": true,
+    "network_egress": true,
+    "ssrf_guard_default_on": true
+  },
+
+  "wiring": {
+    "used_by": ["web-reading (skill)", "ellmos-filecommander-mcp (fc_web_fetch)"],
+    "wiring_doc": "WIRING.md"
+  },
+
+  "status": "development",
+
+  "tags": ["web-scraping", "content-extraction", "html", "crawler", "browser", "standalone"]
+}

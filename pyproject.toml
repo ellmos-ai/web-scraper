@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "web-scraper"
+version = "0.1.0"
+description = "Standalone web scraper / browser control (get, links, forms, headers, content extraction, screenshot). Extracted from the BACH system."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    {name = "Lukas Geiger / ellmos / BACH Contributors"}
+]
+keywords = ["web-scraping", "content-extraction", "html", "crawler", "bach", "ellmos"]
+
+# Kern arbeitet mit der Standardbibliothek (urllib + html.parser/regex).
+dependencies = []
+
+[project.optional-dependencies]
+http    = ["requests>=2.28"]
+parse   = ["beautifulsoup4>=4.11"]
+extract = ["trafilatura>=1.6", "beautifulsoup4>=4.11"]
+screenshot = ["selenium>=4.10"]
+all = [
+    "requests>=2.28",
+    "beautifulsoup4>=4.11",
+    "trafilatura>=1.6",
+    "selenium>=4.10",
+]
+dev = ["pytest>=7.0"]
+
+[project.scripts]
+web-scraper = "web_scraper.core:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["web_scraper*"]

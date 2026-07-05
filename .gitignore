@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+
+# Umgebung / Secrets
+.env
+*.key
+*.pem
+
+# Lokale Daten / Ausgaben
+.web-scraper/
+*.png
+*.jpg
+scrape_cache/
+
+# Editor / OS
+.vscode/
+.idea/
+desktop.ini
+Thumbs.db
+.DS_Store
+
+# Lock-Dateien (Multi-Agent-Koordination, nicht ins Repo)
+LOCK.txt
+LOCK.*.txt
