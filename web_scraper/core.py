@@ -412,17 +412,33 @@ class WebScraper:
                 })
             return forms
         # Regex-Fallback
-        for form_html in re.findall(r"<form[^>]*>(.*?)</form>", html, re.DOTALL | re.IGNORECASE):
-            action = re.search(r'action=["\']([^"\']*)["\']', form_html, re.IGNORECASE)
-            method = re.search(r'method=["\']([^"\']*)["\']', form_html, re.IGNORECASE)
+        for form_match in re.finditer(r"<form([^>]*)\s*>(.*?)</form>", html, re.DOTALL | re.IGNORECASE):
+            attrs = form_match.group(1)
+            form_html = form_match.group(2)
+            action = re.search(r'action=["\']([^"\']*)["\']', attrs, re.IGNORECASE)
+            method = re.search(r'method=["\']([^"\']*)["\']', attrs, re.IGNORECASE)
             fields = []
             for inp in re.finditer(r"<input[^>]+>", form_html, re.IGNORECASE):
                 tag = inp.group()
-                name = re.search(r'name=["\']([^"\']*)["\']', tag)
-                itype = re.search(r'type=["\']([^"\']*)["\']', tag)
+                name = re.search(r'name=["\']([^"\']*)["\']', tag, re.IGNORECASE)
+                itype = re.search(r'type=["\']([^"\']*)["\']', tag, re.IGNORECASE)
                 fields.append({
                     "tag": "input",
                     "type": itype.group(1) if itype else "text",
+                    "name": name.group(1) if name else "",
+                })
+            for ta in re.finditer(r"<textarea[^>]*>", form_html, re.IGNORECASE):
+                tag = ta.group()
+                name = re.search(r'name=["\']([^"\']*)["\']', tag, re.IGNORECASE)
+                fields.append({
+                    "tag": "textarea",
+                    "name": name.group(1) if name else "",
+                })
+            for sel in re.finditer(r"<select[^>]*>", form_html, re.IGNORECASE):
+                tag = sel.group()
+                name = re.search(r'name=["\']([^"\']*)["\']', tag, re.IGNORECASE)
+                fields.append({
+                    "tag": "select",
                     "name": name.group(1) if name else "",
                 })
             forms.append({

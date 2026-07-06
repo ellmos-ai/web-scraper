@@ -1,5 +1,7 @@
 # web-scraper
 
+[![llms.txt](https://img.shields.io/badge/llms.txt-available-blue)](llms.txt)
+
 ![web-scraper — Fetch. Extract. Structure.](assets/banner.svg)
 
 Eigenständiger Web-Scraper und leichte Browser-Steuerung, extrahiert aus dem
@@ -82,6 +84,18 @@ weiterzuverarbeiten. Die CLI formatiert es lesbar; `--json` gibt das rohe dict a
 Extrahiert aus BACH `system/hub/web_scrape.py` (WebScrapeHandler, Task 996) am
 2026-07-05. Das BACH-Regex-Parsing wurde durch `beautifulsoup4`/`trafilatura`
 mit Regex-Fallback ersetzt; SSRF-Schutz und Größenlimit kamen hinzu.
+
+## Tests
+
+So führst du die Offline-Unit-Tests lokal aus:
+
+```bash
+# Entwicklungs-Abhängigkeiten installieren
+pip install -e ".[dev]"
+
+# Tests ausführen
+python -m pytest
+```
 
 ## Lizenz
 

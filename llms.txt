@@ -1,0 +1,82 @@
+# web-scraper
+
+> Standalone Python web scraper and browser control, extracted from the BACH system. Fetch pages, extract links and forms, inspect headers, clean main content, and capture screenshots.
+
+Canonical repository: https://github.com/ellmos-ai/web-scraper
+License: MIT
+Language: Python
+Runtime: Python >= 3.10
+
+## Summary
+
+web-scraper is a lightweight, dependency-free (by default) Python tool and library for web scraping and content extraction. It was extracted from the BACH system's `web_scrape.py` module to serve as a standalone utility. 
+
+It provides five core operations:
+1. `get`: Fetch page body (truncated to 10k preview characters by default).
+2. `links`: Extract all deduplicated absolute links, filtering out mailto, tel, javascript, and anchor links.
+3. `forms`: Parse forms, form actions, methods, and fields.
+4. `headers`: Retrieve full response headers.
+5. `extract`: Extract main text/Markdown content, stripping out boilerplate navigation, scripts, and styling.
+6. `screenshot`: Save a PNG screenshot of a page (requires selenium and Chrome webdriver).
+
+### Backend & Upgrades
+The tool runs purely on Python's standard library (urllib + html.parser/regex) out of the box. Optional package upgrades improve robust behavior:
+- `requests`: improved HTTP client (redirect, SSL fallback).
+- `beautifulsoup4`: clean parsing of links, forms, and elements.
+- `trafilatura`: advanced Markdown main content extraction.
+- `selenium`: page rendering and screenshots.
+
+### Security
+To prevent Server-Side Request Forgery (SSRF), all operations resolve target hosts and block private, loopback, link-local, multicast, and unspecified IP ranges unless explicit permission is granted via `allow_private=True`.
+
+## CLI Usage
+
+```bash
+web-scraper get        https://example.com
+web-scraper links      https://example.com
+web-scraper forms      https://example.com
+web-scraper headers    https://example.com
+web-scraper extract    https://example.com          # Extracts clean Markdown
+web-scraper screenshot https://example.com --out shot.png
+```
+
+Pass `--json` to output raw data dictionary. Disable SSL verification with `--no-verify-ssl` or allow private/loopback connections with `--allow-private`.
+
+## Audience
+
+- AI coding agents and LLM tools requiring headless content extraction without setting up heavy headless browsers.
+- Python developers looking for a lightweight scraper that gracefully downgrades to Python stdlib.
+- DevOps and automation scripts verifying endpoint response bodies and headers with built-in SSRF protection.
+
+## Search Phrases
+
+```
+python lightweight web scraper stdlib
+ssrf protected web scraping library python
+headless markdown content extraction python
+web-scraper get links forms headers
+urllib HTML parser regex fallback scraper
+trafilatura python BeautifulSoup fallback
+extract main content webpage markdown python
+ellmos web-scraper python
+```
+
+## External Discovery Notes
+
+- The package is named `web-scraper` and lives under the `ellmos-ai` organization.
+- It differentiates from other scrapers by its strict "zero dependencies by default" rule, and its native SSRF protection guard blocking localhost/internal subnets.
+- Good discovery terms: local-first scraping, LLM-ready markdown extraction, lightweight browser helper, SSRF-guarded fetcher.
+
+## Important Files
+
+- `README.md`: English documentation.
+- `README_de.md`: German documentation.
+- `WIRING.md`: System wiring details and architecture.
+- `RELEASE_GATE.md`: Release readiness checklist.
+- `SECURITY.md`: Security policy and vulnerability reports.
+- `TODO.md`: Project status and overall roadmap.
+- `pyproject.toml`: package metadata and installation dependencies.
+- `web_scraper/core.py`: core implementation containing WebScraper.
+- `tests/test_web_scraper.py`: offline-only unit tests.
+
+## Last-checked: 2026-07-06
