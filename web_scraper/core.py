@@ -6,7 +6,7 @@ web_scraper.core - Standalone Web-Scraper / Browser-Steuerung
 Portiert und erweitert aus BACH ``system/hub/web_scrape.py`` (WebScrapeHandler).
 
 Operationen:
-    get         HTTP GET, Body (gekuerzt) zurueckgeben
+    get         HTTP GET, Body (gekürzt) zurückgeben
     links       Alle Links einer Seite extrahieren
     forms       Formular-Felder erkennen
     headers     Response-Headers anzeigen
@@ -71,7 +71,7 @@ class BlockedTargetError(FetchError):
 
 @dataclass
 class Response:
-    """Vereinheitlichte HTTP-Antwort, unabhaengig vom Backend."""
+    """Vereinheitlichte HTTP-Antwort, unabhängig vom Backend."""
 
     url: str
     status: int
@@ -85,7 +85,7 @@ class Response:
 # ---------------------------------------------------------------------------
 
 def _resolve_ips(host: str) -> list[str]:
-    """Alle IPs eines Hosts aufloesen (leere Liste bei Fehler)."""
+    """Alle IPs eines Hosts auflösen (leere Liste bei Fehler)."""
     try:
         infos = socket.getaddrinfo(host, None)
         return list({info[4][0] for info in infos})
@@ -122,7 +122,7 @@ def _guard_target(url: str, allow_private: bool) -> None:
         raise BlockedTargetError("localhost ist blockiert (allow_private=True zum Erlauben)")
     ips = _resolve_ips(host)
     if not ips:
-        raise BlockedTargetError(f"Host nicht aufloesbar: {host}")
+        raise BlockedTargetError(f"Host nicht auflösbar: {host}")
     for ip in ips:
         if _is_blocked_ip(ip):
             raise BlockedTargetError(
@@ -136,7 +136,7 @@ def _guard_target(url: str, allow_private: bool) -> None:
 # ---------------------------------------------------------------------------
 
 class WebScraper:
-    """Konfigurierbarer Web-Scraper. Methoden geben je ein dict zurueck."""
+    """Konfigurierbarer Web-Scraper. Methoden geben je ein dict zurück."""
 
     def __init__(
         self,
@@ -157,8 +157,8 @@ class WebScraper:
     def _fetch(self, url: str) -> Response:
         """HTTP GET mit per-Hop-SSRF-Guard und begrenztem Redirect-Following.
 
-        Jeder Redirect wird erneut gegen den SSRF-Schutz geprueft, damit eine
-        oeffentliche URL nicht auf ein internes Ziel (z. B. Cloud-Metadata,
+        Jeder Redirect wird erneut gegen den SSRF-Schutz geprüft, damit eine
+        öffentliche URL nicht auf ein internes Ziel (z. B. Cloud-Metadata,
         127.0.0.1) weiterleiten kann.
         """
         current = url
@@ -203,7 +203,7 @@ class WebScraper:
                 resp.close()
                 return None, location
             resp.raise_for_status()
-            # Groessenlimit beim Streamen durchsetzen
+            # Größenlimit beim Streamen durchsetzen
             chunks: list[bytes] = []
             total = 0
             for chunk in resp.iter_content(chunk_size=16_384):
@@ -272,7 +272,7 @@ class WebScraper:
     # -- Operationen --------------------------------------------------------
 
     def get(self, url: str) -> dict:
-        """HTTP GET. Body wird auf BODY_PREVIEW_CHARS gekuerzt."""
+        """HTTP GET. Body wird auf BODY_PREVIEW_CHARS gekürzt."""
         resp = self._fetch(url)
         body = resp.text
         truncated = len(body) > BODY_PREVIEW_CHARS
@@ -449,7 +449,7 @@ class WebScraper:
         return forms
 
     def _extract_content(self, html: str, url: str) -> tuple[str, str, str]:
-        """Gibt (text, method, format) zurueck."""
+        """Gibt (text, method, format) zurück."""
         # 1) trafilatura -> bestes Markdown
         try:
             import trafilatura  # type: ignore
@@ -519,15 +519,15 @@ def _format_human(data: dict) -> str:
     if op == "get":
         head = (
             f"URL: {data['url']}\nStatus: {data['status']}\n"
-            f"Content-Type: {data['content_type']}\nGroesse: {data['length']} Zeichen\n"
+            f"Content-Type: {data['content_type']}\nGröße: {data['length']} Zeichen\n"
             + "=" * 40 + "\n\n"
         )
         body = data["body"]
         if data.get("truncated"):
-            body += f"\n\n... (gekuerzt auf {BODY_PREVIEW_CHARS} Zeichen)"
+            body += f"\n\n... (gekürzt auf {BODY_PREVIEW_CHARS} Zeichen)"
         return head + body
     if op == "headers":
-        lines = [f"Headers fuer {data['url']}", f"Status: {data['status']}", "=" * 40]
+        lines = [f"Headers für {data['url']}", f"Status: {data['status']}", "=" * 40]
         for k, v in data["headers"].items():
             lines.append(f"  {k}: {v}")
         return "\n".join(lines)
@@ -572,12 +572,12 @@ def main(argv: Optional[list[str]] = None) -> int:
     parser.add_argument("url")
     parser.add_argument("--json", action="store_true", help="Rohes dict als JSON ausgeben")
     parser.add_argument("--timeout", type=int, default=DEFAULT_TIMEOUT)
-    parser.add_argument("--no-verify-ssl", action="store_true", help="SSL-Zertifikat nicht pruefen")
+    parser.add_argument("--no-verify-ssl", action="store_true", help="SSL-Zertifikat nicht prüfen")
     parser.add_argument(
         "--allow-private", action="store_true",
         help="Interne/private Zieladressen erlauben (SSRF-Schutz aus)",
     )
-    parser.add_argument("--out", help="Ausgabedatei fuer screenshot")
+    parser.add_argument("--out", help="Ausgabedatei für screenshot")
     args = parser.parse_args(argv)
 
     scraper = WebScraper(

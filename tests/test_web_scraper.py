@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""Offline-Tests fuer web_scraper (kein Netzwerk noetig).
+"""Offline-Tests für web_scraper (kein Netzwerk nötig).
 
 Getestet werden das Parsing (Links/Formulare/Extraktion) und der SSRF-Schutz.
-Der eigentliche HTTP-Abruf wird nicht live getestet (waere flaky).
+Der eigentliche HTTP-Abruf wird nicht live getestet (wäre flaky).
 """
 import os
 import sys
@@ -22,9 +22,9 @@ from web_scraper.core import (  # noqa: E402
 SAMPLE_HTML = """
 <html><head><title>Test</title><style>.x{}</style></head>
 <body>
-  <nav>Navigation ueberspringen</nav>
-  <h1>Ueberschrift</h1>
-  <p>Ein Absatz mit echtem Inhalt und Umlauten: aeoeue.</p>
+  <nav>Navigation überspringen</nav>
+  <h1>Überschrift</h1>
+  <p>Ein Absatz mit echtem Inhalt und Umlauten: äöü.</p>
   <a href="/relativ">Relativer Link</a>
   <a href="https://example.org/abs">Absoluter Link</a>
   <a href="mailto:x@y.z">Mail</a>
@@ -35,7 +35,7 @@ SAMPLE_HTML = """
     <textarea name="comment"></textarea>
     <select name="choice"></select>
   </form>
-  <footer>Fusszeile</footer>
+  <footer>Fußzeile</footer>
 </body></html>
 """
 
@@ -53,7 +53,7 @@ def test_parse_links_finds_and_filters(scraper):
 
 
 def test_links_dedup_absolutizes_and_skips_schemes(scraper):
-    # links() ruft _fetch; wir testen die Nachverarbeitung ueber _parse_links + urljoin
+    # links() ruft _fetch; wir testen die Nachverarbeitung über _parse_links + urljoin
     from urllib.parse import urljoin
     base = "https://example.com/page"
     pairs = scraper._parse_links(SAMPLE_HTML)
@@ -78,10 +78,10 @@ def test_extract_content_returns_text(scraper):
     text, method, fmt = scraper._extract_content(SAMPLE_HTML, "https://example.com")
     assert "Inhalt" in text
     assert method in ("trafilatura", "beautifulsoup", "regex")
-    # Boilerplate (Navigation/Fusszeile) sollte bei bs4/trafilatura raus sein;
-    # beim reinen Regex-Fallback bleibt sie ggf. drin -> nur bei bs4/trafilatura pruefen.
+    # Boilerplate (Navigation/Fußzeile) sollte bei bs4/trafilatura raus sein;
+    # beim reinen Regex-Fallback bleibt sie ggf. drin -> nur bei bs4/trafilatura prüfen.
     if method in ("beautifulsoup", "trafilatura"):
-        assert "Navigation ueberspringen" not in text
+        assert "Navigation überspringen" not in text
 
 
 # -- SSRF-Schutz -----------------------------------------------------------
@@ -112,7 +112,7 @@ def test_guard_blocks_non_http_scheme():
 
 
 def test_guard_allows_public_ip():
-    # 8.8.8.8 ist oeffentlich -> kein Fehler (IP-Literal, kein echtes DNS noetig)
+    # 8.8.8.8 ist öffentlich -> kein Fehler (IP-Literal, kein echtes DNS nötig)
     _guard_target("http://8.8.8.8/", allow_private=False)
 
 
@@ -132,7 +132,7 @@ def test_is_blocked_ip():
 # -- Redirect-SSRF (per-Hop-Guard) -----------------------------------------
 
 def test_fetch_redirect_to_internal_is_blocked(scraper):
-    # Start ist eine oeffentliche IP (Guard ok); der Redirect zeigt auf eine
+    # Start ist eine öffentliche IP (Guard ok); der Redirect zeigt auf eine
     # link-local Adresse -> der zweite Hop MUSS geblockt werden.
     scraper._fetch_once = lambda url: (None, 'http://169.254.169.254/')
     with pytest.raises(BlockedTargetError):
@@ -140,7 +140,7 @@ def test_fetch_redirect_to_internal_is_blocked(scraper):
 
 
 def test_fetch_redirect_cap(scraper):
-    # Endlose (oeffentliche) Redirects muessen nach dem Limit abbrechen.
+    # Endlose (öffentliche) Redirects müssen nach dem Limit abbrechen.
     scraper._fetch_once = lambda url: (None, 'http://8.8.8.8/')
     with pytest.raises(FetchError):
         scraper._fetch('http://8.8.8.8/')

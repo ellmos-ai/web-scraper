@@ -3,6 +3,7 @@
 **Audit Date:** 2026-07-05
 **Auditor:** Claude (claude-code)
 **Target Repo:** `ellmos-ai/web-scraper`
+**Last Care Check:** 2026-07-11 (Codex/GPT) — CLI-/Test-Umlaut-Hygiene und Gate-Status synchronisiert.
 
 Erledigte Aufgaben gehören nach `DONE.md`.
 
@@ -33,4 +34,4 @@ Erledigte Aufgaben gehören nach `DONE.md`.
 | LICENSE | :green_circle: | MIT |
 | **Overall** | **READY** | |
 
-**Gate Check Exit Code:** `pending` (Ergebnis in `RELEASE_GATE.md`)
+**Gate Check Exit Code:** `0` (siehe `RELEASE_GATE.md`)
