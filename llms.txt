@@ -11,7 +11,7 @@ Runtime: Python >= 3.10
 
 web-scraper is a lightweight, dependency-free (by default) Python tool and library for web scraping and content extraction. It was extracted from the BACH system's `web_scrape.py` module to serve as a standalone utility. 
 
-It provides five core operations:
+It provides six core operations:
 1. `get`: Fetch page body (truncated to 10k preview characters by default).
 2. `links`: Extract all deduplicated absolute links, filtering out mailto, tel, javascript, and anchor links.
 3. `forms`: Parse forms, form actions, methods, and fields.
@@ -79,4 +79,4 @@ ellmos web-scraper python
 - `web_scraper/core.py`: core implementation containing WebScraper.
 - `tests/test_web_scraper.py`: offline-only unit tests.
 
-## Last-checked: 2026-07-06
+## Last-checked: 2026-07-17

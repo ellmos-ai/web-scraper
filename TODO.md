@@ -3,7 +3,7 @@
 **Audit Date:** 2026-07-05
 **Auditor:** Claude (claude-code)
 **Target Repo:** `ellmos-ai/web-scraper`
-**Last Care Check:** 2026-07-11 (Codex/GPT) — CLI-/Test-Umlaut-Hygiene und Gate-Status synchronisiert.
+**Last Care Check:** 2026-07-17 (Codex/GPT) — Same-page anchor filtering in `links()` fixed and regression-tested.
 
 Erledigte Aufgaben gehören nach `DONE.md`.
 

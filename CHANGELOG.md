@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- Skipped same-page anchor links before URL normalization so `links()` matches the documented `#` filtering behavior.
 - Normalized German CLI/help strings and offline test fixtures to use real umlauts instead of ASCII transliterations.
 - Fixed regex-based fallback form parsing in `_parse_forms` to correctly look for the `action` and `method` attributes inside the `<form>` opening tag rather than the inner form HTML.
 - Added extraction support for `<textarea>` and `<select>` fields in the regex-based fallback form parser.

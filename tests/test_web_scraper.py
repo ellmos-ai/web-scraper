@@ -15,6 +15,7 @@ from web_scraper.core import (  # noqa: E402
     WebScraper,
     BlockedTargetError,
     FetchError,
+    Response,
     _guard_target,
     _is_blocked_ip,
 )
@@ -62,6 +63,29 @@ def test_links_dedup_absolutizes_and_skips_schemes(scraper):
     assert "https://example.com/relativ" in absolute
     assert "https://example.org/abs" in absolute
     assert not any(a.startswith(("javascript:", "mailto:")) for a in absolute)
+
+
+def test_links_skips_same_page_anchors_after_fetch(scraper):
+    html = """
+    <a href="/docs">Docs</a>
+    <a href="#section">Section</a>
+    <a href="mailto:info@example.com">Mail</a>
+    <a href="https://example.org/external">External</a>
+    """
+    scraper._fetch = lambda url: Response(
+        url="https://example.com/page",
+        status=200,
+        text=html,
+        content_type="text/html",
+    )
+
+    result = scraper.links("https://example.com/page")
+    hrefs = {item["href"] for item in result["links"]}
+
+    assert "https://example.com/docs" in hrefs
+    assert "https://example.org/external" in hrefs
+    assert "https://example.com/page#section" not in hrefs
+    assert "mailto:info@example.com" not in hrefs
 
 
 def test_parse_forms(scraper):

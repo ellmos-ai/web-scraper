@@ -303,10 +303,10 @@ class WebScraper:
         seen: set[str] = set()
         result: list[dict] = []
         for href, text in pairs:
+            if href.startswith(("javascript:", "mailto:", "tel:", "#")):
+                continue
             absolute = urljoin(resp.url, href)
             if absolute in seen:
-                continue
-            if absolute.startswith(("javascript:", "mailto:", "tel:", "#")):
                 continue
             seen.add(absolute)
             result.append({"text": text.strip()[:120], "href": absolute})
