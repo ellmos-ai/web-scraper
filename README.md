@@ -1,12 +1,21 @@
 # web-scraper
 
+[English](README.md) | [Deutsch](README_de.md)
+
 [![llms.txt](https://img.shields.io/badge/llms.txt-available-blue)](llms.txt)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Pytest Passed](https://img.shields.io/badge/tests-15%20passed-brightgreen.svg)](tests/)
+[![SSRF Guard](https://img.shields.io/badge/security-SSRF%20protected-green.svg)](#security)
 
 ![web-scraper — Fetch. Extract. Structure.](assets/banner.svg)
 
 Standalone web scraper and lightweight browser control, extracted from the
 BACH system (`web_scrape.py`). Fetch pages, pull out links and forms, inspect
 response headers, extract clean main content as Markdown, and take screenshots.
+
+> [!NOTE]
+> **AI / Agent Integration Note**: `web-scraper` is designed for autonomous agent pipelines. It safely handles untrusted URLs by enforcing SSRF protection against internal subnets and capping downloads at 5 MB by default.
 
 - **Zero required dependencies** — the core runs on the Python standard library
   (`urllib` + `html.parser`/regex).

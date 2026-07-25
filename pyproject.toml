@@ -36,3 +36,10 @@ web-scraper = "web_scraper.core:main"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["web_scraper*"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra"
+testpaths = ["tests"]
+pythonpath = ["."]
+

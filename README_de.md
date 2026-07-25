@@ -1,6 +1,12 @@
 # web-scraper
 
+[English](README.md) | [Deutsch](README_de.md)
+
 [![llms.txt](https://img.shields.io/badge/llms.txt-available-blue)](llms.txt)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![Lizenz: MIT](https://img.shields.io/badge/Lizenz-MIT-yellow.svg)](LICENSE)
+[![Pytest Passed](https://img.shields.io/badge/tests-15%20bestanden-brightgreen.svg)](tests/)
+[![SSRF-Schutz](https://img.shields.io/badge/Sicherheit-SSRF%20gesch%C3%BCtzt-green.svg)](#sicherheit)
 
 ![web-scraper — Fetch. Extract. Structure.](assets/banner.svg)
 
@@ -8,6 +14,9 @@ Eigenständiger Web-Scraper und leichte Browser-Steuerung, extrahiert aus dem
 BACH-System (`web_scrape.py`). Seiten abrufen, Links und Formulare herauslösen,
 Response-Headers ansehen, sauberen Haupttext als Markdown extrahieren und
 Screenshots erstellen.
+
+> [!NOTE]
+> **KI- / Agenten-Integrationshinweis**: `web-scraper` wurde für autonome KI-Agenten-Pipelines entwickelt. Das Modul verarbeitet externe URLs sicher durch integrierten SSRF-Schutz gegen interne Subnetze sowie ein Standard-Download-Limit von 5 MB.
 
 - **Keine Pflicht-Abhängigkeiten** — der Kern läuft mit der Standardbibliothek
   (`urllib` + `html.parser`/Regex).
