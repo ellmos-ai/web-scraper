@@ -14,9 +14,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added extraction support for `<textarea>` and `<select>` fields in the regex-based fallback form parser.
 
 ### Added
-- Added GitHub Actions CI workflow (`.github/workflows/ci.yml`) for automated pytest testing across Python 3.10-3.13.
-- Added `[tool.pytest.ini_options]` with `pythonpath = "."` to `pyproject.toml` for standard test discovery.
-- Added language switcher links (`[English] | [Deutsch]`), Shields.io badges, and AI/Agent security note (`> [!NOTE]`) to `README.md` and `README_de.md`.
 - Added `llms.txt` file for LLM integration and discovery.
 - Added local test instructions to `README.md` and `README_de.md`.
 
