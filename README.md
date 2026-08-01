@@ -8,7 +8,7 @@
 [![Pytest Passed](https://img.shields.io/badge/tests-15%20passed-brightgreen.svg)](tests/)
 [![SSRF Guard](https://img.shields.io/badge/security-SSRF%20protected-green.svg)](#security)
 
-![web-scraper — Fetch. Extract. Structure.](assets/banner.png)
+![web-scraper — Fetch. Extract. Structure.](assets/banner.svg)
 
 Standalone web scraper and lightweight browser control, extracted from the
 BACH system (`web_scrape.py`). Fetch pages, pull out links and forms, inspect
