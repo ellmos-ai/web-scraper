@@ -2,6 +2,8 @@
 
 [English](README.md) | [Deutsch](README_de.md)
 
+[![Ecosystem: ellmos-ai](https://img.shields.io/badge/Ecosystem-ellmos--ai-blue.svg)](https://github.com/ellmos-ai)
+[![Umbrella: open-bricks](https://img.shields.io/badge/Umbrella-open--bricks-purple.svg)](https://github.com/open-bricks)
 [![llms.txt](https://img.shields.io/badge/llms.txt-available-blue)](llms.txt)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -15,7 +17,7 @@ BACH system (`web_scrape.py`). Fetch pages, pull out links and forms, inspect
 response headers, extract clean main content as Markdown, and take screenshots.
 
 > [!NOTE]
-> **AI / Agent Integration Note**: `web-scraper` is designed for autonomous agent pipelines. It safely handles untrusted URLs by enforcing SSRF protection against internal subnets and capping downloads at 5 MB by default.
+> **AI / Agent Integration Note**: `web-scraper` is designed for autonomous agent pipelines. It safely handles untrusted URLs by enforcing SSRF protection against internal subnets and capping downloads at 5 MB by default. See [`llms.txt`](llms.txt) for LLM/agent integration specs.
 
 - **Zero required dependencies** — the core runs on the Python standard library
   (`urllib` + `html.parser`/regex).

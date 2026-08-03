@@ -2,6 +2,8 @@
 
 [English](README.md) | [Deutsch](README_de.md)
 
+[![Ecosystem: ellmos-ai](https://img.shields.io/badge/Ecosystem-ellmos--ai-blue.svg)](https://github.com/ellmos-ai)
+[![Umbrella: open-bricks](https://img.shields.io/badge/Umbrella-open--bricks-purple.svg)](https://github.com/open-bricks)
 [![llms.txt](https://img.shields.io/badge/llms.txt-available-blue)](llms.txt)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![Lizenz: MIT](https://img.shields.io/badge/Lizenz-MIT-yellow.svg)](LICENSE)
@@ -16,7 +18,7 @@ Response-Headers ansehen, sauberen Haupttext als Markdown extrahieren und
 Screenshots erstellen.
 
 > [!NOTE]
-> **KI- / Agenten-Integrationshinweis**: `web-scraper` wurde für autonome KI-Agenten-Pipelines entwickelt. Das Modul verarbeitet externe URLs sicher durch integrierten SSRF-Schutz gegen interne Subnetze sowie ein Standard-Download-Limit von 5 MB.
+> **KI- / Agenten-Integrationshinweis**: `web-scraper` wurde für autonome KI-Agenten-Pipelines entwickelt. Das Modul verarbeitet externe URLs sicher durch integrierten SSRF-Schutz gegen interne Subnetze sowie ein Standard-Download-Limit von 5 MB. Siehe [`llms.txt`](llms.txt) für Spezifikationen zur KI/Agenten-Integration.
 
 - **Keine Pflicht-Abhängigkeiten** — der Kern läuft mit der Standardbibliothek
   (`urllib` + `html.parser`/Regex).

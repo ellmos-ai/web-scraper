@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added `llms.txt` file for LLM integration and discovery.
 - Added local test instructions to `README.md` and `README_de.md`.
+- Added Ecosystem (`ellmos-ai`) & Umbrella (`open-bricks`) Shields.io badges and `llms.txt` GFM callout link in `README.md` / `README_de.md`.
+- Updated `llms.txt` `Last-checked` timestamp to `2026-08-03`.
 
 ## [0.1.0] - 2026-07-05
 
