@@ -1,6 +1,7 @@
 # Python
 __pycache__/
 *.py[cod]
+*.pyc
 *.egg-info/
 .eggs/
 build/
@@ -8,6 +9,15 @@ dist/
 .venv/
 venv/
 env/
+wheelhouse/
+.wheel-smoke/
+
+# Test & Linting Caches
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage/
+htmlcov/
 
 # Umgebung / Secrets
 .env
@@ -19,19 +29,33 @@ env/
 *.png
 *.jpg
 scrape_cache/
+*.db
+data/
 
-# Editor / OS
+# Multi-Host Sync-Konflikte (OneDrive / Syncthing / Multi-Device)
+*-conflict-*
+*.sync-conflict-*
+*.conflict
+*-CONFLIT-*
+*.sync-temp-*
+*-ASUS-GEI.*
+*-WORKSTATION-LG.*
+
+# Lock-Dateien (Multi-Agent-Koordination & Projekt-Sperren)
+LOCK
+LOCK.*
+*.lock
+LOCK*.txt
+LOCK.permissions.json
+
+# Editor / OS / Temp
 .vscode/
 .idea/
 desktop.ini
 Thumbs.db
 .DS_Store
-
-# Lock-Dateien (Multi-Agent-Koordination, nicht ins Repo)
-LOCK.txt
-LOCK.*.txt
-
-# Gate-Check minimum entries (explicit literals)
-*.pyc
-*.db
-data/
+*.tmp
+*.bak
+*.swp
+*~
+*.log

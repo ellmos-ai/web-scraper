@@ -7,7 +7,8 @@
 [![llms.txt](https://img.shields.io/badge/llms.txt-available-blue)](llms.txt)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![Lizenz: MIT](https://img.shields.io/badge/Lizenz-MIT-yellow.svg)](LICENSE)
-[![Pytest Passed](https://img.shields.io/badge/tests-15%20bestanden-brightgreen.svg)](tests/)
+[![Pytest Passed](https://img.shields.io/badge/tests-23%20bestanden-brightgreen.svg)](tests/)
+[![Sicherheits-SLA](https://img.shields.io/badge/Sicherheits--SLA-48h-blue.svg)](SECURITY.md)
 [![SSRF-Schutz](https://img.shields.io/badge/Sicherheit-SSRF%20gesch%C3%BCtzt-green.svg)](#sicherheit)
 
 ![web-scraper — Fetch. Extract. Structure.](assets/banner.svg)

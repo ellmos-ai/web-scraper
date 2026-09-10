@@ -7,17 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-09-10
+
+### Added
+- Restored and hardened GitHub Actions CI matrix (`.github/workflows/tests.yml`) across Python 3.10, 3.11, 3.12, and 3.13 with concurrency cancellation (`cancel-in-progress: true`), `ruff check .`, `compileall -q .`, wheel build & install validation, CLI preflight, and pytest execution.
+- Added GitHub Actions issue and PR lifecycle workflow (`.github/workflows/stale.yml`).
+- Added executable package entry point `web_scraper/__main__.py` enabling clean `python -m web_scraper` CLI invocation without `runpy` runtime warnings.
+- Comprehensive automated contract test suite (`tests/test_metadata.py`) enforcing `.gitignore` exclusions, PEP 621 metadata, version parity, CI/stale workflows, security policy SLAs, and documentation badges.
+- Enhanced PEP 621 metadata in `pyproject.toml` with `classifiers`, `[project.urls]` (Homepage, Repository, Documentation, Issues, Changelog, Security, Parent Organization, Umbrella Ecosystem), `[project.optional-dependencies]` (`dev`, `test`), `[tool.pytest.ini_options]`, and `[tool.ruff]`.
+- Added bilingual `SECURITY.md` (DE/EN) with supported versions table, 48-hour response SLA, 5 business days triage guarantee, and designated security contact addresses.
+- Hardened `.gitignore` against multi-host sync conflicts (`*-conflict-*`, `*.sync-conflict-*`, etc.), multi-agent lock files (`LOCK`, `LOCK.*`, etc.), test caches (`.pytest_cache/`, `.ruff_cache/`, `coverage`), and temporary build artifacts.
+- Added `llms.txt` file for LLM integration and discovery (updated for version `0.1.1`).
+- Added Ecosystem (`ellmos-ai`) and Umbrella (`open-bricks`) Shields.io discovery badges.
+
 ### Fixed
 - Skipped same-page anchor links before URL normalization so `links()` matches the documented `#` filtering behavior.
 - Normalized German CLI/help strings and offline test fixtures to use real umlauts instead of ASCII transliterations.
 - Fixed regex-based fallback form parsing in `_parse_forms` to correctly look for the `action` and `method` attributes inside the `<form>` opening tag rather than the inner form HTML.
 - Added extraction support for `<textarea>` and `<select>` fields in the regex-based fallback form parser.
-
-### Added
-- Added `llms.txt` file for LLM integration and discovery.
-- Added local test instructions to `README.md` and `README_de.md`.
-- Added Ecosystem (`ellmos-ai`) & Umbrella (`open-bricks`) Shields.io badges and `llms.txt` GFM callout link in `README.md` / `README_de.md`.
-- Updated `llms.txt` `Last-checked` timestamp to `2026-08-03`.
+- Synchronized package version to `0.1.1` across `web_scraper/__init__.py`, `pyproject.toml`, and documentation.
 
 ## [0.1.0] - 2026-07-05
 

@@ -6,6 +6,7 @@ Canonical repository: https://github.com/ellmos-ai/web-scraper
 License: MIT
 Language: Python
 Runtime: Python >= 3.10
+Version: 0.1.1
 
 ## Summary
 
@@ -78,5 +79,6 @@ ellmos web-scraper python
 - `pyproject.toml`: package metadata and installation dependencies.
 - `web_scraper/core.py`: core implementation containing WebScraper.
 - `tests/test_web_scraper.py`: offline-only unit tests.
+- `tests/test_metadata.py`: automated PEP 621 metadata, CI workflows, and contract test suite.
 
-## Last-checked: 2026-08-03
+## Last-checked: 2026-09-10
