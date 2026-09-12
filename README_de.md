@@ -4,8 +4,10 @@
 
 [![Ecosystem: ellmos-ai](https://img.shields.io/badge/Ecosystem-ellmos--ai-blue.svg)](https://github.com/ellmos-ai)
 [![Umbrella: open-bricks](https://img.shields.io/badge/Umbrella-open--bricks-purple.svg)](https://github.com/open-bricks)
+[![CI](https://github.com/ellmos-ai/web-scraper/actions/workflows/tests.yml/badge.svg)](https://github.com/ellmos-ai/web-scraper/actions/workflows/tests.yml)
 [![llms.txt](https://img.shields.io/badge/llms.txt-available-blue)](llms.txt)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![Code style: ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Lizenz: MIT](https://img.shields.io/badge/Lizenz-MIT-yellow.svg)](LICENSE)
 [![Pytest Passed](https://img.shields.io/badge/tests-23%20bestanden-brightgreen.svg)](tests/)
 [![Sicherheits-SLA](https://img.shields.io/badge/Sicherheits--SLA-48h-blue.svg)](SECURITY.md)
@@ -26,6 +28,63 @@ Screenshots erstellen.
 - **Optionale Extras** verbessern das Ergebnis, wenn installiert:
   `requests`, `beautifulsoup4`, `trafilatura`, `selenium`.
 - **SSRF-Schutz** — interne/private Ziele sind per Default blockiert.
+
+## Architektur & Pipeline
+
+```mermaid
+flowchart TD
+    subgraph Client ["Eingabe & Aufrufe"]
+        CLI["CLI: web-scraper"]
+        LIB["Python-API: WebScraper / extract()"]
+        AGENT["KI-Agent / Tool-Runner"]
+    end
+
+    subgraph SecurityGate ["Pre-Flight Sicherheits-Gate"]
+        SCHEME{"Schema-Prüfung"}
+        SSRF{"SSRF-Resolver-Schutz"}
+        BLOCK["Anfrage blockiert (SSRF-Sicherheitsfehler)"]
+    end
+
+    subgraph FetchPipeline ["Fetch-Engine"]
+        HTTP["HTTP-Client (urllib stdlib / requests)"]
+        CAP["Größen- & Timeout-Schutz (max. 5 MB)"]
+    end
+
+    subgraph Processing ["Extraktion & Verarbeitung"]
+        P_GET["get: Status & Body-Vorschau"]
+        P_LINKS["links: Absolute URL-Deduplizierung"]
+        P_FORMS["forms: Formular-Aktionen & Eingabefelder"]
+        P_EXTRACT["extract: Trafilatura / BeautifulSoup4 / Regex"]
+        P_SCREENSHOT["screenshot: Headless Selenium WebDriver"]
+    end
+
+    CLI --> SCHEME
+    LIB --> SCHEME
+    AGENT --> SCHEME
+
+    SCHEME -->|"http / https"| SSRF
+    SCHEME -->|"andere Schemata"| BLOCK
+
+    SSRF -->|"Private / Loopback-IP (allow_private=False)"| BLOCK
+    SSRF -->|"Öffentliche IP / Freigegeben"| HTTP
+
+    HTTP --> CAP
+    CAP --> P_GET
+    CAP --> P_LINKS
+    CAP --> P_FORMS
+    CAP --> P_EXTRACT
+    CAP --> P_SCREENSHOT
+
+    subgraph Output ["Strukturierte Ausgabe"]
+        RESULT["Standardisiertes Python-Dict / JSON (--json)"]
+    end
+
+    P_GET --> RESULT
+    P_LINKS --> RESULT
+    P_FORMS --> RESULT
+    P_EXTRACT --> RESULT
+    P_SCREENSHOT --> RESULT
+```
 
 ## Installation
 
@@ -72,6 +131,21 @@ print(extract("https://example.com")["content"])   # Convenience-Funktion
 
 Jede Operation gibt ein einfaches `dict` zurück — leicht programmatisch
 weiterzuverarbeiten. Die CLI formatiert es lesbar; `--json` gibt das rohe dict aus.
+
+### KI-Agenten- & Tool-Integration
+
+Für autonome KI-Agenten, die sauberen Seiteninhalt für den LLM-Prompt-Kontext benötigen:
+
+```python
+from web_scraper import extract
+
+def fetch_page_context(url: str) -> str:
+    """Ruft bereinigten Markdown-Text für den LLM-Kontext ab, geschützt gegen SSRF."""
+    result = extract(url)
+    if result.get("error"):
+        raise RuntimeError(f"Scraping fehlgeschlagen: {result['error']}")
+    return result["content"]
+```
 
 ## Operationen
 

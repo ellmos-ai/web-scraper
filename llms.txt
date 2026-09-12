@@ -81,4 +81,4 @@ ellmos web-scraper python
 - `tests/test_web_scraper.py`: offline-only unit tests.
 - `tests/test_metadata.py`: automated PEP 621 metadata, CI workflows, and contract test suite.
 
-## Last-checked: 2026-09-10
+## Last-checked: 2026-09-11
