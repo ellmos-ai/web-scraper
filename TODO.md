@@ -13,6 +13,10 @@ Erledigte Aufgaben gehören nach `DONE.md`.
 - [ ] Mehrsprachige CLI-/Fehlermeldungen (DE/EN/ZH/JA/ES/RU) — projektweites Ziel
 - [ ] Optional: `robots.txt`-Beachtung als Opt-in-Flag
 - [ ] Optional: einfaches Rate-Limiting / Retry-Backoff
+- [ ] Release-Tag fuer den aktuellen Stand setzen (z. B. `v0.1.2` auf 3078116, der Commit mit
+      `max_redirects`). BACH pinnt dieses Modul seit T-20260913-920596893 per vollem SHA, weil es
+      hier keinen Tag gibt; mit Tag kann der Eintrag auf die lesbarere Form wie `accounts-core@v0.1.1`
+      umgestellt werden. Angeregt im Zweitmodell-Review zu ellmos-ai/bach#42.
 
 ## Bekannte Grenzen
 
