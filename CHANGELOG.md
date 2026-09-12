@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Added Mermaid architecture & pipeline flowcharts to `README.md` and `README_de.md` detailing input client triggers, pre-flight security checks (SSRF, scheme validation), fetch engine, and extraction operations with 100% bilingual parity.
+- Added GitHub Actions CI workflow status badge and Ruff code style badge to `README.md` and `README_de.md`.
+- Added autonomous AI agent context extraction code examples to `README.md` and `README_de.md`.
+- Enhanced automated contract test suite (`tests/test_metadata.py`) to verify CI/Ruff badges and Mermaid architecture diagrams across bilingual documentation.
+
 ## [0.1.1] - 2026-09-10
 
 ### Added

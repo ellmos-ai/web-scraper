@@ -87,7 +87,7 @@ def test_version_parity():
 
     llms_text = (ROOT_DIR / "llms.txt").read_text(encoding="utf-8")
     assert f"Version: {web_scraper.__version__}" in llms_text
-    assert "Last-checked: 2026-09-10" in llms_text
+    assert "Last-checked: 2026-09-11" in llms_text
 
 def test_ci_matrix_workflow_definition():
     """Prueft .github/workflows/tests.yml auf Matrix, Concurrency und Steps."""
@@ -149,4 +149,8 @@ def test_readme_bilingual_parity_and_badges():
         assert "[Deutsch](README_de.md)" in readme
         assert "https://github.com/ellmos-ai" in readme
         assert "https://github.com/open-bricks" in readme
+        assert "actions/workflows/tests.yml/badge.svg" in readme
+        assert "astral-sh/ruff" in readme
         assert "llms.txt" in readme
+        assert "```mermaid" in readme
+        assert "flowchart TD" in readme
