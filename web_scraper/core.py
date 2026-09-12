@@ -145,12 +145,19 @@ class WebScraper:
         max_bytes: int = DEFAULT_MAX_BYTES,
         verify_ssl: bool = True,
         allow_private: bool = False,
+        max_redirects: int = DEFAULT_MAX_REDIRECTS,
     ) -> None:
         self.timeout = timeout
         self.user_agent = user_agent
         self.max_bytes = max_bytes
         self.verify_ssl = verify_ssl
         self.allow_private = allow_private
+        if max_redirects < 0:
+            raise ValueError("max_redirects darf nicht negativ sein")
+        # Eine Redirect-Grenze ist eine Sicherheitsgrenze: Wer strenger ist als der
+        # Standard, muss das durchsetzen koennen. Sonst lockert ein Umstieg auf dieses
+        # Modul die Grenze des Aufrufers, ohne dass es jemand bemerkt.
+        self.max_redirects = max_redirects
 
     # -- HTTP ---------------------------------------------------------------
 
@@ -162,14 +169,14 @@ class WebScraper:
         127.0.0.1) weiterleiten kann.
         """
         current = url
-        for _ in range(DEFAULT_MAX_REDIRECTS + 1):
+        for _ in range(self.max_redirects + 1):
             _guard_target(current, self.allow_private)
             resp, redirect = self._fetch_once(current)
             if redirect is None:
                 assert resp is not None
                 return resp
             current = urljoin(current, redirect)
-        raise FetchError(f"Zu viele Redirects (>{DEFAULT_MAX_REDIRECTS})")
+        raise FetchError(f"Zu viele Redirects (>{self.max_redirects})")
 
     def _fetch_once(self, url: str):
         """Ein einzelner HTTP-Hop OHNE Redirect-Following.

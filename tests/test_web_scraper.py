@@ -12,6 +12,7 @@ import pytest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from web_scraper.core import (  # noqa: E402
+    DEFAULT_MAX_REDIRECTS,
     WebScraper,
     BlockedTargetError,
     FetchError,
@@ -168,3 +169,37 @@ def test_fetch_redirect_cap(scraper):
     scraper._fetch_once = lambda url: (None, 'http://8.8.8.8/')
     with pytest.raises(FetchError):
         scraper._fetch('http://8.8.8.8/')
+
+
+def test_default_redirect_cap_is_unchanged():
+    # Der Default bleibt 10 -- bestehende Aufrufer aendern ihr Verhalten nicht.
+    assert WebScraper().max_redirects == DEFAULT_MAX_REDIRECTS == 10
+
+
+def test_redirect_cap_is_configurable():
+    """Ein strengerer Aufrufer muss seine Grenze durchsetzen koennen.
+
+    Ohne diesen Parameter wuerde ein Umstieg auf dieses Modul die Grenze des
+    Aufrufers stillschweigend lockern -- BACH erlaubt 5, dieses Modul 10.
+    """
+    strict = WebScraper(max_redirects=2)
+    hops = []
+    strict._fetch_once = lambda url: (hops.append(url), (None, 'http://8.8.8.8/'))[1]
+
+    with pytest.raises(FetchError) as excinfo:
+        strict._fetch('http://8.8.8.8/')
+
+    assert len(hops) == 3, 'Startversuch plus zwei erlaubte Redirects'
+    assert '>2' in str(excinfo.value), 'die Meldung muss die tatsaechliche Grenze nennen'
+
+
+def test_zero_redirects_allows_no_hop():
+    strict = WebScraper(max_redirects=0)
+    strict._fetch_once = lambda url: (None, 'http://8.8.8.8/')
+    with pytest.raises(FetchError):
+        strict._fetch('http://8.8.8.8/')
+
+
+def test_negative_redirect_cap_is_rejected():
+    with pytest.raises(ValueError):
+        WebScraper(max_redirects=-1)

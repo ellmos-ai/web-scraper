@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- `WebScraper(max_redirects=...)` makes the redirect limit configurable. The default stays 10, so no existing caller changes behaviour. A redirect limit is a security boundary: a stricter caller must be able to enforce it, otherwise adopting this module silently relaxes theirs. Negative values are rejected.
 - Added Mermaid architecture & pipeline flowcharts to `README.md` and `README_de.md` detailing input client triggers, pre-flight security checks (SSRF, scheme validation), fetch engine, and extraction operations with 100% bilingual parity.
 - Added GitHub Actions CI workflow status badge and Ruff code style badge to `README.md` and `README_de.md`.
 - Added autonomous AI agent context extraction code examples to `README.md` and `README_de.md`.
