@@ -163,7 +163,11 @@ def fetch_page_context(url: str) -> str:
 - `get`/`extract`/… lösen den Ziel-Host auf und lehnen private, Loopback-,
   Link-Local-, reservierte und Multicast-Adressen ab (außer `allow_private=True`).
 - Nur `http`/`https`-Schemata sind erlaubt.
-- Downloads sind auf 5 MB begrenzt (`max_bytes`), Redirects folgt das HTTP-Backend.
+- Downloads sind auf 5 MB begrenzt (`max_bytes`).
+- Redirects werden mit SSRF-Prüfung je Hop verfolgt, höchstens `max_redirects`
+  (Standard 10). Ein Aufrufer mit strengerer Grenze übergibt seine eigene —
+  `WebScraper(max_redirects=5)` —, damit der Umstieg auf dieses Modul seine Grenze
+  nicht lockert.
 
 ## Herkunft
 
