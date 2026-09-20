@@ -13,7 +13,8 @@
 [![Sicherheits-SLA](https://img.shields.io/badge/Sicherheits--SLA-48h-blue.svg)](SECURITY.md)
 [![SSRF-Schutz](https://img.shields.io/badge/Sicherheit-SSRF%20gesch%C3%BCtzt-green.svg)](#sicherheit)
 
-![web-scraper — Fetch. Extract. Structure.](assets/banner.svg)
+![web-scraper — Fetch. Extract. Structure.](assets/banner.png)
+<!-- alternate banner: assets/banner-b.png (swap on occasion) -->
 
 Eigenständiger Web-Scraper und leichte Browser-Steuerung, extrahiert aus dem
 BACH-System (`web_scrape.py`). Seiten abrufen, Links und Formulare herauslösen,

@@ -13,7 +13,8 @@
 [![Security SLA](https://img.shields.io/badge/security--SLA-48h-blue.svg)](SECURITY.md)
 [![SSRF Guard](https://img.shields.io/badge/security-SSRF%20protected-green.svg)](#security)
 
-![web-scraper — Fetch. Extract. Structure.](assets/banner.svg)
+![web-scraper — Fetch. Extract. Structure.](assets/banner.png)
+<!-- alternate banner: assets/banner-b.png (swap on occasion) -->
 
 Standalone web scraper and lightweight browser control, extracted from the
 BACH system (`web_scrape.py`). Fetch pages, pull out links and forms, inspect

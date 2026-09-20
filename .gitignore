@@ -32,6 +32,10 @@ scrape_cache/
 *.db
 data/
 
+# Banner-Assets sind Ausnahme von *.png
+!assets/banner.png
+!assets/banner-b.png
+
 # Multi-Host Sync-Konflikte (OneDrive / Syncthing / Multi-Device)
 *-conflict-*
 *.sync-conflict-*
