@@ -70,15 +70,19 @@ ellmos web-scraper python
 
 ## Important Files
 
-- `README.md`: English documentation.
-- `README_de.md`: German documentation.
+- `README.md`: English documentation (18-point dual-anchor navigation).
+- `README_de.md`: German documentation (18-point dual-anchor navigation).
+- `NOTICE`: Canonical root attribution file (Lukas Geiger / ellmos-ai / open-bricks).
+- `THIRD_PARTY_LICENSES.md`: Level 1 SBOM and unprivileged RunAsInvoker non-elevation certification.
+- `MARKETING-LOG.txt`: Discoverability, target personas, and 5-way competitive matrix audit log.
 - `WIRING.md`: System wiring details and architecture.
 - `RELEASE_GATE.md`: Release readiness checklist.
-- `SECURITY.md`: Security policy and vulnerability reports.
+- `SECURITY.md`: Security policy, vulnerability reports, § 521 BGB disclaimer, and 48h SLA.
 - `TODO.md`: Project status and overall roadmap.
 - `pyproject.toml`: package metadata and installation dependencies.
 - `web_scraper/core.py`: core implementation containing WebScraper.
 - `tests/test_web_scraper.py`: offline-only unit tests.
 - `tests/test_metadata.py`: automated PEP 621 metadata, CI workflows, and contract test suite.
 
-## Last-checked: 2026-09-11
+## Last-checked: 2026-09-22
+

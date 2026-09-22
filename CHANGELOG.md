@@ -8,11 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- `WebScraper(max_redirects=...)` makes the redirect limit configurable. The default stays 10, so no existing caller changes behaviour. A redirect limit is a security boundary: a stricter caller must be able to enforce it, otherwise adopting this module silently relaxes theirs. Negative values are rejected.
-- Added Mermaid architecture & pipeline flowcharts to `README.md` and `README_de.md` detailing input client triggers, pre-flight security checks (SSRF, scheme validation), fetch engine, and extraction operations with 100% bilingual parity.
-- Added GitHub Actions CI workflow status badge and Ruff code style badge to `README.md` and `README_de.md`.
-- Added autonomous AI agent context extraction code examples to `README.md` and `README_de.md`.
-- Enhanced automated contract test suite (`tests/test_metadata.py`) to verify CI/Ruff badges and Mermaid architecture diagrams across bilingual documentation.
+- Pfad B Discoverability & Architecture: Implemented 18-point bilingual quick navigation architecture (`<a id="sec-01"></a>` through `<a id="sec-18"></a>`) with reciprocal section parity across `README.md` and `README_de.md`.
+- Dual Mermaid diagram specifications: Added End-to-End Request & Content Lifecycle sequence diagram (`sequenceDiagram` with `autonumber` and zero unquoted statement terminators) alongside the Architecture & Security Gate Topology flowchart (`flowchart TD`).
+- Canonical root `NOTICE` attribution file establishing lineage to Lukas Geiger, ellmos-ai, and open-bricks umbrella ecosystem.
+- Level 1 Software Bill of Materials (SBOM) in `THIRD_PARTY_LICENSES.md` certifying zero required external dependencies for core runtime, permissive licensing (MIT / Apache-2.0 / PSF-2.0), unprivileged `RunAsInvoker` non-elevation, and Zero-Copyleft isolation.
+- Structured Discoverability & Persona mapping in `MARKETING-LOG.txt` detailing Target Personas `[PERSONA-01]` through `[PERSONA-04]` and a 10-dimension 5-way comparative matrix vs. raw HTTP clients, Scrapy, Playwright, and Cloud Scraping SaaS.
+- Saturated GitHub repository topics to 20/20 and harmonized PEP 621 keywords and repository URLs in `pyproject.toml` (license-files, Notice, Third-Party Licenses, Marketing Log, LLM Ready).
+- Explicit German statutory notice (§ 521 BGB Gefälligkeitsrecht) and binding 48-hour Security Response SLA harmonized across `README.md`, `README_de.md`, and `SECURITY.md`.
+- Expanded contract test suite in `tests/test_metadata.py` locking in NOTICE attribution, Level 1 SBOM, 18-point navigation parity, Mermaid syntax hygiene, and § 521 BGB compliance.
+- `WebScraper(max_redirects=...)` makes the redirect limit configurable. The default stays 10, so no existing caller changes behaviour. Negative values are rejected.
 
 ## [0.1.1] - 2026-09-10
 

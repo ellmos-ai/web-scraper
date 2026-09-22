@@ -80,3 +80,12 @@ Wenn Sie eine Sicherheitslücke oder Schwachstelle in `web-scraper` entdecken, m
 - **Eingangsbestätigung:** Innerhalb von 48 Stunden.
 - **Ersteinschätzung & Triage:** Innerhalb von 5 Werktagen.
 - **Behebung & Release:** Schnellstmöglich nach Verifikation durch automatisierte Testläufe.
+
+---
+
+## Gesetzlicher Hinweis / Statutory Legal Notice (§ 521 BGB)
+
+Die Bereitstellung dieser Open-Source-Software erfolgt unentgeltlich. Die Haftung ist nach deutschem Recht gemäß § 521 BGB (Schenkungs- und Gefälligkeitsrecht) auf Vorsatz und grobe Fahrlässigkeit beschränkt.
+
+This open-source software is provided free of charge. Under German statutory law (§ 521 BGB), liability is limited to intent and gross negligence.
+

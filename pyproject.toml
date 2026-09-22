@@ -8,11 +8,33 @@ version = "0.1.1"
 description = "Standalone web scraper / browser control (get, links, forms, headers, content extraction, screenshot). Extracted from the BACH system."
 readme = "README.md"
 license = "MIT"
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_LICENSES.md"]
 requires-python = ">=3.10"
 authors = [
     {name = "Lukas Geiger / ellmos / BACH Contributors"}
 ]
-keywords = ["web-scraping", "content-extraction", "html", "crawler", "bach", "ellmos"]
+keywords = [
+    "web-scraping",
+    "scraper",
+    "crawler",
+    "html-parsing",
+    "markdown",
+    "content-extraction",
+    "ssrf-protection",
+    "local-first",
+    "zero-dependencies",
+    "zero-egress",
+    "fail-closed",
+    "agent-framework",
+    "developer-tools",
+    "cli",
+    "python",
+    "screenshots",
+    "open-bricks",
+    "ellmos",
+    "ellmos-ai",
+    "trafilatura",
+]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -53,12 +75,16 @@ test = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/ellmos-ai/web-scraper"
+Homepage = "https://github.com/ellmos-ai/web-scraper#readme"
 Repository = "https://github.com/ellmos-ai/web-scraper"
 Documentation = "https://github.com/ellmos-ai/web-scraper#readme"
 Issues = "https://github.com/ellmos-ai/web-scraper/issues"
 Changelog = "https://github.com/ellmos-ai/web-scraper/blob/main/CHANGELOG.md"
 Security = "https://github.com/ellmos-ai/web-scraper/blob/main/SECURITY.md"
+Notice = "https://github.com/ellmos-ai/web-scraper/blob/main/NOTICE"
+"Third-Party Licenses" = "https://github.com/ellmos-ai/web-scraper/blob/main/THIRD_PARTY_LICENSES.md"
+"Marketing Log" = "https://github.com/ellmos-ai/web-scraper/blob/main/MARKETING-LOG.txt"
+"LLM Ready" = "https://github.com/ellmos-ai/web-scraper/blob/main/llms.txt"
 "Parent Organization" = "https://github.com/ellmos-ai"
 "Umbrella Ecosystem" = "https://github.com/open-bricks"
 
@@ -73,7 +99,7 @@ include = ["web_scraper*"]
 minversion = "7.0"
 testpaths = ["tests"]
 pythonpath = ["."]
-addopts = "-ra -v"
+addopts = "-ra -v --basetemp=.pytest_temp"
 
 [tool.ruff]
 target-version = "py310"

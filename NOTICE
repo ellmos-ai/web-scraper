@@ -1,0 +1,38 @@
+web-scraper
+Copyright (c) 2026 Lukas Geiger / ellmos-ai / open-bricks
+
+This product includes software developed by Lukas Geiger and the ellmos-ai
+open-source community (https://github.com/ellmos-ai/web-scraper), part of the
+open-bricks software umbrella ecosystem (https://github.com/open-bricks).
+
+Original Lineage:
+Extracted from the BACH autonomous cognitive architecture system
+(`system/hub/web_scrape.py`, WebScrapeHandler, Task 996) on 2026-07-05.
+
+===============================================================================
+Product Architecture & Level 1 SBOM Attributions:
+- web-scraper Core: MIT License (Copyright (c) 2026 Lukas Geiger / ellmos-ai)
+- Python Standard Library: Python Software Foundation License (PSF-2.0)
+- Optional HTTP Engine: requests (Apache License 2.0)
+- Optional Parser: beautifulsoup4 (MIT License)
+- Optional Content Extraction: trafilatura (Apache License 2.0)
+- Optional Browser Control: selenium (Apache License 2.0)
+See THIRD_PARTY_LICENSES.md for comprehensive component details.
+
+System Invariant & Security Guarantees:
+- INV-LOCAL-01: 100% Local-First / Zero Mandatory External Dependencies (Stdlib Core)
+- INV-LOCAL-02: Fail-Closed SSRF Guard (Loopback, Link-Local, RFC 1918, Multicast Blocked)
+- INV-LOCAL-03: Strict Hop-by-Hop Redirect SSRF Validation up to configurable limit
+- INV-LOCAL-04: Body Cap Protection (Default max 5 MB download limit)
+- INV-LOCAL-05: Headless Clean Markdown Extraction Cascade (Trafilatura -> BS4 -> Regex)
+- INV-LOCAL-06: Zero-Egress Air-Gapped Operation (No telemetry, tracking, or remote calls)
+- INV-LOCAL-07: Unprivileged RunAsInvoker Execution (No root or admin elevation required)
+- INV-LOCAL-08: Level 1 SBOM & Zero-Copyleft Isolation (100% Permissive MIT/Apache/PSF)
+- INV-LOCAL-09: Statutory Disclaimer (German § 521 BGB Gefälligkeitsrecht)
+- INV-SLA-10: Binding 48-Hour Security Response SLA via GitHub Private Advisories
+===============================================================================
+
+Statutory Legal Notice / Gesetzlicher Hinweis (§ 521 BGB):
+Die Bereitstellung dieser Open-Source-Software erfolgt unentgeltlich. Die Haftung
+ist nach deutschem Recht gemäß § 521 BGB auf Vorsatz und grobe Fahrlässigkeit
+beschränkt.
