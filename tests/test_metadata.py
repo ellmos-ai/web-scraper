@@ -3,7 +3,10 @@
 """Automatisierte Vertragstestsuite (Hygiene, PEP 621, CI-Matrix, Sicherheit, Versionen, SBOM, 18-Punkte-Navigation)."""
 
 import pathlib
-import tomllib
+try:
+    import tomllib
+except ModuleNotFoundError:
+    import tomli as tomllib
 
 ROOT_DIR = pathlib.Path(__file__).resolve().parent.parent
 
