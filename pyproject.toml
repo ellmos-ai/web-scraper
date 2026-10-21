@@ -66,10 +66,12 @@ all = [
     "selenium>=4.10",
 ]
 dev = [
+    "tomli>=2.0; python_version < '3.11'",
     "pytest>=7.0",
     "ruff",
 ]
 test = [
+    "tomli>=2.0; python_version < '3.11'",
     "pytest>=7.0",
     "ruff",
 ]
