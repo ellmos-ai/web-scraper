@@ -8,6 +8,7 @@ open-bricks software umbrella ecosystem (https://github.com/open-bricks).
 Original Lineage:
 Extracted from the BACH autonomous cognitive architecture system
 (`system/hub/web_scrape.py`, WebScrapeHandler, Task 996) on 2026-07-05.
+Teile aus SentinelFleet, vom alleinigen Rechteinhaber Lukas Geiger am 25.10.2026 unter MIT neu lizenziert.
 
 ===============================================================================
 Product Architecture & Level 1 SBOM Attributions:

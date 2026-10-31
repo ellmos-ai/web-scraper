@@ -4,6 +4,7 @@
 web_scraper.core - Standalone Web-Scraper / Browser-Steuerung
 =============================================================
 Portiert und erweitert aus BACH ``system/hub/web_scrape.py`` (WebScrapeHandler).
+Teile aus SentinelFleet, vom alleinigen Rechteinhaber Lukas Geiger am 25.10.2026 unter MIT neu lizenziert.
 
 Operationen:
     get         HTTP GET, Body (gekürzt) zurückgeben
@@ -28,11 +29,13 @@ formatiert es lesbar; ``--json`` gibt das rohe dict aus.
 from __future__ import annotations
 
 import argparse
+import http.client
 import ipaddress
 import json
 import os
 import re
 import socket
+import ssl
 import sys
 from dataclasses import dataclass, field
 from typing import Any, Optional
@@ -80,55 +83,161 @@ class Response:
     content_type: str = ""
 
 
+METADATA_HOSTS = frozenset({
+    "metadata.google.internal",
+    "metadata",
+    "instance-data",
+})
+LOCALHOST_NAMES = frozenset({"localhost", "localhost.localdomain", "ip6-localhost"})
+
+
 # ---------------------------------------------------------------------------
-# SSRF-Schutz
+# SSRF-Schutz & DNS-Pinning
 # ---------------------------------------------------------------------------
+
+def _address_block_reason(raw_ip: str) -> Optional[str]:
+    """Grund nennen, warum eine Adresse unzulässig ist (oder None, wenn öffentlich)."""
+    try:
+        address = ipaddress.ip_address(raw_ip.strip("[]"))
+    except ValueError:
+        return f"'{raw_ip}' ist keine parsbare IP-Adresse"
+
+    mapped = getattr(address, "ipv4_mapped", None)
+    if mapped is not None:
+        address = mapped
+
+    for predicate, label in (
+        (address.is_loopback, "loopback"),
+        (address.is_link_local, "link-local"),
+        (address.is_unspecified, "unspecified"),
+        (address.is_multicast, "multicast"),
+        (address.is_reserved, "reserved"),
+        (address.is_private, "private"),
+    ):
+        if predicate:
+            return f"{address} ist eine {label}-Adresse"
+    return None
+
+
+def _is_blocked_ip(ip: str) -> bool:
+    return _address_block_reason(ip) is not None
+
 
 def _resolve_ips(host: str) -> list[str]:
     """Alle IPs eines Hosts auflösen (leere Liste bei Fehler)."""
     try:
         infos = socket.getaddrinfo(host, None)
-        return list({info[4][0] for info in infos})
+        return sorted({info[4][0] for info in infos})
     except socket.gaierror:
         return []
 
 
-def _is_blocked_ip(ip: str) -> bool:
+def _same_address(left: str, right: str) -> bool:
     try:
-        addr = ipaddress.ip_address(ip)
+        addr_left = ipaddress.ip_address(left.strip("[]"))
+        addr_right = ipaddress.ip_address(right.strip("[]"))
+        mapped_l = getattr(addr_left, "ipv4_mapped", None)
+        if mapped_l is not None:
+            addr_left = mapped_l
+        mapped_r = getattr(addr_right, "ipv4_mapped", None)
+        if mapped_r is not None:
+            addr_right = mapped_r
+        return addr_left == addr_right
     except ValueError:
-        return True  # unparsbar -> vorsichtshalber blockieren
-    return (
-        addr.is_private
-        or addr.is_loopback
-        or addr.is_link_local
-        or addr.is_reserved
-        or addr.is_multicast
-        or addr.is_unspecified
-    )
+        return False
 
 
-def _guard_target(url: str, allow_private: bool) -> None:
-    """Wirft BlockedTargetError, wenn das Ziel intern/privat ist."""
+class _PinnedHTTPConnection(http.client.HTTPConnection):
+    def __init__(self, host: str, port: int, pinned_ip: str, timeout: float = DEFAULT_TIMEOUT):
+        super().__init__(host, port, timeout=timeout)
+        self.pinned_ip = pinned_ip
+
+    def connect(self) -> None:
+        self.sock = socket.create_connection((self.pinned_ip, self.port), self.timeout)
+        peer = self.sock.getpeername()[0]
+        if not _same_address(peer, self.pinned_ip):
+            self.sock.close()
+            raise BlockedTargetError(
+                f"Connected peer {peer} differs from validated address {self.pinned_ip}"
+            )
+
+
+class _PinnedHTTPSConnection(http.client.HTTPSConnection):
+    def __init__(
+        self,
+        host: str,
+        port: int,
+        pinned_ip: str,
+        timeout: float = DEFAULT_TIMEOUT,
+        context: Optional[ssl.SSLContext] = None,
+    ):
+        ctx = context or ssl.create_default_context()
+        super().__init__(host, port, timeout=timeout, context=ctx)
+        self.pinned_ip = pinned_ip
+
+    def connect(self) -> None:
+        raw = socket.create_connection((self.pinned_ip, self.port), self.timeout)
+        peer = raw.getpeername()[0]
+        if not _same_address(peer, self.pinned_ip):
+            raw.close()
+            raise BlockedTargetError(
+                f"Connected peer {peer} differs from validated address {self.pinned_ip}"
+            )
+        server_hostname = self.host.strip("[]")
+        self.sock = self._context.wrap_socket(raw, server_hostname=server_hostname)
+
+
+def _guard_target(url: str, allow_private: bool = False) -> tuple[str, list[str]]:
+    """Wirft BlockedTargetError, wenn das Ziel intern/privat ist.
+    Gibt (host, resolved_ips) zurück.
+    """
     parsed = urlparse(url)
-    if parsed.scheme not in ("http", "https"):
+    if parsed.scheme.lower() not in ("http", "https"):
         raise BlockedTargetError(f"Nur http/https erlaubt, nicht: {parsed.scheme!r}")
-    if allow_private:
-        return
-    host = parsed.hostname or ""
+
+    host = (parsed.hostname or "").lower()
     if not host:
         raise BlockedTargetError("Kein Host in URL")
-    if host.lower() in ("localhost", "localhost.localdomain"):
+
+    if allow_private:
+        try:
+            ipaddress.ip_address(host.strip("[]"))
+            return host, [host.strip("[]")]
+        except ValueError:
+            ips = _resolve_ips(host)
+            return host, (ips if ips else [host])
+
+    if host in LOCALHOST_NAMES:
         raise BlockedTargetError("localhost ist blockiert (allow_private=True zum Erlauben)")
+    if host in METADATA_HOSTS:
+        raise BlockedTargetError(f"'{host}' ist ein Cloud-Instance-Metadata-Endpoint")
+
+    # IP-Literal prüfen
+    try:
+        ipaddress.ip_address(host.strip("[]"))
+    except ValueError:
+        pass
+    else:
+        literal = host.strip("[]")
+        reason = _address_block_reason(literal)
+        if reason:
+            raise BlockedTargetError(
+                f"Interne/private Zieladresse blockiert ({reason}): {host} -> {literal} "
+                f"(allow_private=True zum Erlauben)"
+            )
+        return host, [literal]
+
     ips = _resolve_ips(host)
     if not ips:
         raise BlockedTargetError(f"Host nicht auflösbar: {host}")
     for ip in ips:
-        if _is_blocked_ip(ip):
+        reason = _address_block_reason(ip)
+        if reason:
             raise BlockedTargetError(
-                f"Interne/private Zieladresse blockiert: {host} -> {ip} "
+                f"Interne/private Zieladresse blockiert ({reason}): {host} -> {ip} "
                 f"(allow_private=True zum Erlauben)"
             )
+    return host, ips
 
 
 # ---------------------------------------------------------------------------
@@ -162,33 +271,120 @@ class WebScraper:
     # -- HTTP ---------------------------------------------------------------
 
     def _fetch(self, url: str) -> Response:
-        """HTTP GET mit per-Hop-SSRF-Guard und begrenztem Redirect-Following.
+        """HTTP GET mit DNS-Pinning, per-Hop-SSRF-Guard und begrenztem Redirect-Following.
 
-        Jeder Redirect wird erneut gegen den SSRF-Schutz geprüft, damit eine
-        öffentliche URL nicht auf ein internes Ziel (z. B. Cloud-Metadata,
-        127.0.0.1) weiterleiten kann.
+        Jeder Redirect wird erneut aufgelöst und gegen den SSRF-Schutz geprüft,
+        damit eine öffentliche URL nicht auf ein internes Ziel (z. B. Cloud-Metadata,
+        127.0.0.1) weiterleiten kann. Die geprüfte IP wird für die Verbindung gepinnt,
+        um DNS-Rebinding (TOCTOU) auszuschließen.
         """
         current = url
         for _ in range(self.max_redirects + 1):
-            _guard_target(current, self.allow_private)
-            resp, redirect = self._fetch_once(current)
+            host, resolved_ips = _guard_target(current, self.allow_private)
+            self._pinned_addresses = resolved_ips
+            try:
+                resp, redirect = self._fetch_once(current)
+            finally:
+                self._pinned_addresses = None
             if redirect is None:
                 assert resp is not None
                 return resp
             current = urljoin(current, redirect)
         raise FetchError(f"Zu viele Redirects (>{self.max_redirects})")
 
-    def _fetch_once(self, url: str):
-        """Ein einzelner HTTP-Hop OHNE Redirect-Following.
+    def _fetch_from_ip(
+        self,
+        url: str,
+        pinned_ip: str,
+    ) -> tuple[Optional[Response], Optional[str]]:
+        """Einzelner HTTP-Hop, streng an die vorab geprüfte IP gepinnt."""
+        parsed = urlparse(url)
+        scheme = parsed.scheme.lower()
+        host = (parsed.hostname or "").lower()
+        port = parsed.port or (443 if scheme == "https" else 80)
 
-        Rueckgabe: (Response, None) bei finaler Antwort,
-                   (None, location) bei einem Redirect.
-        """
+        ssl_context: Optional[ssl.SSLContext] = None
+        if scheme == "https":
+            if self.verify_ssl:
+                ssl_context = ssl.create_default_context()
+            else:
+                ssl_context = ssl.create_default_context()
+                ssl_context.check_hostname = False
+                ssl_context.verify_mode = ssl.CERT_NONE
+
+        connection_cls = _PinnedHTTPSConnection if scheme == "https" else _PinnedHTTPConnection
+        connection = connection_cls(
+            host=host,
+            port=port,
+            pinned_ip=pinned_ip,
+            timeout=self.timeout,
+            context=ssl_context if scheme == "https" else None,
+        )
+
+        target = parsed.path or "/"
+        if parsed.query:
+            target += f"?{parsed.query}"
+        host_header = host if parsed.port is None else f"{host}:{parsed.port}"
+        req_headers = {
+            "Host": host_header,
+            "User-Agent": self.user_agent,
+            "Accept": "*/*",
+        }
+
         try:
-            import requests  # type: ignore
-        except ImportError:
-            return self._fetch_once_urllib(url)
-        return self._fetch_once_requests(url, requests)
+            connection.request("GET", target, headers=req_headers)
+            resp = connection.getresponse()
+            if resp.status in (301, 302, 303, 307, 308):
+                location = resp.headers.get("location") or resp.headers.get("Location")
+                if location:
+                    return None, location
+            if resp.status >= 400:
+                raise FetchError(f"HTTP {resp.status}: {resp.reason}")
+
+            raw = resp.read(self.max_bytes + 1)
+            if len(raw) > self.max_bytes:
+                raw = raw[: self.max_bytes]
+
+            hdrs = {k: v for k, v in resp.headers.items()}
+            ctype = resp.headers.get("content-type", "")
+            charset = resp.headers.get_content_charset() or "utf-8"
+
+            return Response(
+                url=url,
+                status=resp.status,
+                headers=hdrs,
+                text=raw.decode(charset, errors="replace"),
+                content_type=ctype,
+            ), None
+        finally:
+            connection.close()
+
+    def _fetch_once(
+        self,
+        url: str,
+        pinned_ip: Optional[str] = None,
+    ) -> tuple[Optional[Response], Optional[str]]:
+        """Ein einzelner HTTP-Hop mit DNS-Pinning OHNE automatisches Redirect-Following.
+
+        Rückgabe: (Response, None) bei finaler Antwort,
+                  (None, location) bei einem Redirect.
+        """
+        addresses = [pinned_ip] if pinned_ip else getattr(self, "_pinned_addresses", None)
+        if not addresses:
+            _, addresses = _guard_target(url, self.allow_private)
+
+        last_error: Optional[Exception] = None
+        for candidate_ip in addresses:
+            try:
+                return self._fetch_from_ip(url, candidate_ip)
+            except (OSError, ssl.SSLError, http.client.HTTPException) as exc:
+                last_error = exc
+                continue
+            except (BlockedTargetError, FetchError):
+                raise
+        if last_error is not None:
+            raise FetchError(f"{type(last_error).__name__}: {last_error}") from last_error
+        raise FetchError("Keine validierte Adresse für die Verbindung verfügbar")
 
     def _fetch_once_requests(self, url: str, requests: Any):
         headers = {"User-Agent": self.user_agent}
